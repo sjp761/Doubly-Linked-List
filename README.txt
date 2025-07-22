@@ -1,0 +1,1 @@
+Something I made for school with a couple clean ups and code corrections. Demonstrates use of pointers and memory management in a complex way. Still might have a couple improvements here and there
