@@ -62,11 +62,16 @@ void DoublyLinkedList::pop_front()
 
 void DoublyLinkedList::insert(short value, int index)
 {
-    if (index <= 0 || size() <= 1) //Always insert if index is 0 or size is 1 or less (If the size is 1, then we dont need to do anything special to insert it)
+    if (index < 0 || index > size()) //Check if index is valid
+    {
+        throw std::out_of_range("Index out of range");
+    }
+
+    if (size() <= 1 || index == 0) //Always insert if index is 0 or size is 1 or less (If the size is 1, then we dont need to do anything special to insert it)
     {
         push_front(value);
     }
-    else if (index >= size()) //Add to the end
+    else if (index >= size() - 1) //Add to the end
     {
         LLNode *current = head; //Iterate through the list
         while (current->next != nullptr) //Stop at the last node
@@ -92,31 +97,23 @@ void DoublyLinkedList::insert(short value, int index)
 
 void DoublyLinkedList::erase(int index)
 {
-    if (index <= 0)
+    if (index < 0 || index >= size()) //Check if index is valid
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    if (index == 0)
     {
         pop_front();
     }
     else
     {
-        if (index >= size())
+        LLNode *current = head->next;
+        for (int i = 1; i < index; i++) //Start at 1 since 0 is erased
         {
-            index = size() - 1; //If the index is out of bounds, set it to the last valid index
-        }
-
-        LLNode *current = head; //First node
-        
-        for (int i = 1; i <= index; i++) //Start at 1 since any other index is already erased
-        {
-            if (current == nullptr)
-            {
-                throw std::out_of_range("Index out of range");
-            }
             current = current->next;
         }
-        if (current->prev != nullptr) // Check if the current node is not the head
-        {
-            current->prev->next = current->next;
-        }
+        
+        current->prev->next = current->next; //There will always be a previous node since we start at index 1
         
         if (current->next != nullptr)
         {
@@ -148,7 +145,7 @@ short DoublyLinkedList::operator[](int index)
 {
     if (index < 0 || index >= size()) 
     {
-        return std::numeric_limits<short>::min(); 
+        throw std::out_of_range("Index out of range"); 
     }
     LLNode* current = head;
     for (int i = 0; i < index; i++) 

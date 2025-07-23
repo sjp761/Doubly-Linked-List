@@ -16,9 +16,11 @@ int main()
         list.push_front(i);
     }
 
-    PrintListWithInfo("List after pushing front", list);
-    list.insert(10, 1000000);
-    PrintListWithInfo("List after inserting at end", list);
-    list.erase (2);
-    PrintListWithInfo("List after erasing index 2", list);
+    PrintListWithInfo("List after pushing 10 elements", list);
+    list.insert(100, 0);
+    PrintListWithInfo("List after inserting 100 at index 0", list);
+    list.insert(100, list.size());
+    PrintListWithInfo("List after inserting 100 at index 10", list);
+    list.insert(50, list.size() - 1);
+    PrintListWithInfo("List after inserting 50 before last element", list);
 }
